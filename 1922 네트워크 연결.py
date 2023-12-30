@@ -1,39 +1,29 @@
 import sys
-input = sys.stdin.readline
+from heapq import heappop, heappush
+from collections import defaultdict
 
 n = int(input())
 m = int(input())
 
-INF = int(1e9)
-MAP = [[INF] * (n+1) for _ in range(n+1)]
+tree = defaultdict(list)
 
-for _ in range(m):
+for i in range(m):
     a, b, c = map(int, input().split())
-    MAP[a][b] = c
-    MAP[b][a] = c
+    tree[a].append((c, b))  # 비용 먼저
+    tree[b].append((c, a))  # 양방향
 
-dist = MAP[1].copy()
-min_dist = min(dist)
-idx = dist.index(min_dist)
+heap = [(0, 1)] # 비용, 노드
 visit = [False] * (n+1)
-visit[1] = True
 answer = 0
 
-for i in range(1, n):
-    if idx == -1:
-        break
-    answer += min_dist
-    visit[idx] = True
-    min_dist = INF
-    min_idx = -1
+while heap:
+    cost, node = heappop(heap)
 
-    for j in range(1, n+1):
-        if not visit[j] and dist[j] > MAP[idx][j]:
-            dist[j] = MAP[idx][j]
-        if not visit[j] and min_dist > dist[j]:
-            min_dist = dist[j]
-            min_idx = j
+    if not visit[node]:
+        visit[node] = True
+        answer += cost
 
-    idx = min_idx
+        for next_cost, next_node in tree[node]:
+            heappush(heap, (next_cost, next_node))
 
 print(answer)
