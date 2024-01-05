@@ -23,8 +23,8 @@ for i in range(n):
             tree[j].append((dist, i))
         else:                                           # '0'
             dist = 0
-        if dist != 0:
-            total += dist
+
+        total += dist
 
 heap = [(0, 0)]
 visit = [False] * (53)  # Z = 52

@@ -5,7 +5,7 @@ input = sys.stdin.readline
 n = int(input())
 
 heap = []
-for _ in range(n):  # 카드 묶음 생성
+for _ in range(n):
     heappush(heap, int(input()))
 
 answer = 0

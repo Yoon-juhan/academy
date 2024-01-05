@@ -12,7 +12,7 @@ for i in range(m):
     tree[a].append((c, b))  # 비용 먼저
     tree[b].append((c, a))  # 양방향
 
-heap = [(0, 1)] # 비용, 노드
+heap = [(0, 1)]             # 비용, 노드
 visit = [False] * (n+1)
 answer = 0
 
