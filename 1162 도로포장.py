@@ -14,22 +14,26 @@ for _ in range(m):
 
 INF = int(1e9)
 
-def dijkstra(i):
-    distance = [INF] * (n+1)
-    distance[i] = 0
 
-    q = [(0, i)]
+distance = [[INF] * (n+1) for _ in range(n+1)]
+distance[1][1] = 0
 
-    while q:
-        now_d, now = heappop(q)
+q = [(0, 1, 1)]
 
-        if distance[now] < now_d: 
-            continue
+while q:
+    now_d, now, cnt = heappop(q)
 
-        for next_d, next in graph[now]:
-            new_d = now_d + next_d
-            if distance[next] > new_d:
-                distance[next] = new_d
-                heappush(q, (new_d, next))
+    if distance[cnt][now] < now_d: 
+        continue
 
-    return distance
+    for next_d, next in graph[now]:
+        new_d = now_d + next_d
+        if distance[cnt][next] > new_d:
+            distance[cnt][next] = new_d
+            heappush(q, (new_d, next, cnt))
+        if cnt+1 <= k+1 and distance[cnt+1][next] > now_d:
+            distance[cnt+1][next] = now_d
+            heappush(q, (now_d, next, cnt+1))
+
+for i in distance:
+    print(i)
