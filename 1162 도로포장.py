@@ -34,7 +34,4 @@ while q:
             distance[next][cnt+1] = now_d
             heappush(q, (now_d, next, cnt+1))
 
-for i in distance:
-    print(i)
-
 print(min(distance[-1]))
