@@ -14,6 +14,7 @@ for _ in range(m):
 
 start, end = 1, n
 INF = int(1e9)
+path = {}   # 최단 경로 저장
 
 def dijkstra(i, x):
     distance = [INF] * (n+1)
@@ -31,18 +32,22 @@ def dijkstra(i, x):
             new_d = now_d + next_d
             if next != x and distance[next] > new_d:
                 distance[next] = new_d
+                if x == -1:
+                    path[next] = now
                 heappush(q, (new_d, next))
 
     return distance
 
-D = dijkstra(start, -1) # 경찰이 안 막았을 때
+D = dijkstra(start, -1) # 경찰이 안 막았을 때 (-1)
 
 answer = -1
-for x in range(1, n):
-    d = dijkstra(start, x)
+x = n
+while path[x] != start: # 최단 경로만 하나씩 막아본다.
+    d = dijkstra(start, path[x])
     if d[n] == INF:
         print(-1)
         exit()
     answer = max(answer, d[n] - D[n])
+    x = path[x]
 
 print(answer)
