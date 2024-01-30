@@ -4,28 +4,33 @@ input = sys.stdin.readline
 
 V = int(input())
 tree = defaultdict(list)
-INF = int(1e9)
 
 for _ in range(V):
     info = list(map(int, input().split()))
     for i in range(1, len(info)-1, 2):
         tree[info[0]].append([info[i], info[i+1]])
 
-print(tree)
+visit = [False] * (V+1)
+visit[1] = True
+distance = 0
 
 def dfs(now, d):
-    if distance[1] < d:
-        distance[0] = now
-        distance[1] = d
+    global distance
+    left, right = 0, 0
 
-    if visit[now]:
-        return
     for next, next_d in tree[now]:
-        visit[next] = True
-        dfs(next, d+next_d)
+        x = 0
+        if not visit[next]:
+            visit[next] = True
+            x = dfs(next, next_d)
+        if left <= right:
+            left = max(left, x)
+        else:
+            right = max(right, x)
+    
+    distance = max(distance, left + right)
+    return max(left+d, right+d)
 
-visit = [False] * (V+1)
-distance = [-1, -1]
 dfs(1, 0)
 
 print(distance)

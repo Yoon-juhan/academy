@@ -11,22 +11,22 @@ for _ in range(n-1):
     a, b, c = map(int, input().split())
     tree[a].append((b, c))
 
-def dfs(now):
+answer = 0
+
+def dfs(now, d):
     global answer
-    max_a, max_b = 0, 0
+    left, right = 0, 0
 
-    for next, d in tree[now]:
-        t = dfs(next) + d
-        if max_a < t:
-            max_b, max_a = max_a, t
-        elif max_b < t:
-            max_b = t
-
-    answer = max(answer, max_a + max_b)
+    for next, next_d in tree[now]:
+        x = dfs(next, next_d)
+        if left <= right:
+            left = max(left, x)
+        else:
+            right = max(right, x)
     
-    return max_a
+    answer = max(answer, left + right)
+    return max(left+d, right+d)
 
-answer = -1
-dfs(1)
+dfs(1, 0)
 
 print(answer)
