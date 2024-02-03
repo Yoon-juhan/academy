@@ -6,10 +6,10 @@ n = int(input())
 check = 0
 
 for i in range(n):
-    q = input().strip().split(" ")
+    q = input().strip().split()
     if q[0] == "add":
         x = int(q[1]) - 1
-        check = check | (1 << x)
+        check = check | (1 << x) 
     elif q[0] == "remove":
         x = int(q[1]) - 1
         check = check & ~(1 << x)
@@ -25,4 +25,4 @@ for i in range(n):
     elif q[0] == "all":
         check = (1 << 20) - 1
     else:
-        chkek = 0
+        check = 0
